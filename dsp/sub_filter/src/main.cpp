@@ -42,7 +42,7 @@ void setup() {
 }
 
 void loop() {
-  delay(100); // Main loop does nothing, audio processing is handled by the Audio library
+  delay(100);
   pinMode(FQ_PIN, INPUT_DISABLE);
   Serial.println(analogRead(FQ_PIN));
   int fc = (analogRead(FQ_PIN) * 200) / 1023; // Scale to 0-200
