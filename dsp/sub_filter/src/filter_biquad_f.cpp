@@ -4,33 +4,6 @@
 #include <Arduino.h>
 #include "filter_biquad_f.h"
 
-/*
-typedef double REAL;
-#typedef double REAL;
-#define NBQ 2
-REAL biquada[]={0.9891548679797922,-1.9889529784426023,0.9740167917470341,-1.9738164386508996};
-REAL biquadb[]={1,2,1,2};
-REAL gain=395557945.0626531;
-REAL xyv[]={0,0,0,0,0,0,0,0,0};
-
-REAL applyfilter(REAL v)
-{
-   int i,b,xp=0,yp=3,bqp=0;
-   REAL out=v/gain;
-   for (i=8; i>0; i--) {xyv[i]=xyv[i-1];}
-   for (b=0; b<NBQ; b++)
-   {
-       int len=2;
-       xyv[xp]=out;
-       for(i=0; i<len; i++) { out+=xyv[xp+len-i]*biquadb[bqp+i]-xyv[yp+len-i]*biquada[bqp+i]; }
-       bqp+=len;
-       xyv[yp]=out;
-       xp=yp; yp+=len+1;
-   }
-   return out;
-}
-*/
-
 void AudioFilterBiquadFloat::update(void)
 {
     audio_block_t *block;
