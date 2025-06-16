@@ -17,6 +17,7 @@
 
 #define FQ_PIN 27
 #define DELAY_PIN 26  
+#define VOLUME_PIN 25
 
 AudioInputI2S            i2s1;          
 AudioFilterBiquadFloat   biquad1;       
@@ -33,23 +34,24 @@ void setup() {
   // Initialize audio system
   AudioMemory(100);
   sgtl5000_1.enable(0, 8000);
-  sgtl5000_1.volume(0.5); // Set volume to 50%
+  sgtl5000_1.volume(0.8); // Set volume to 50%
   sgtl5000_1.inputSelect(AUDIO_INPUT_LINEIN); // Select line-in as input
   biquad1.setSosCoefficients(2, filterBank); 
   delay1.delay(0, 0); // Set delay to 100ms
   pinMode(FQ_PIN, INPUT_DISABLE);
   pinMode(DELAY_PIN, INPUT_DISABLE);
+  pinMode(VOLUME_PIN, INPUT_DISABLE);
 }
 
 void loop() {
-  delay(100);
+  delay(10);
   pinMode(FQ_PIN, INPUT_DISABLE);
-  Serial.println(analogRead(FQ_PIN));
   int fc = (analogRead(FQ_PIN) * 200) / 1023; // Scale to 0-200
   if(fc > 199) {
     fc = 199; // Limit frequency to 200
   }
   biquad1.setSosCoefficients(2, filterBank + fc * 2 * STAGE_COEFFICIENTS);
-  int delay = analogRead(DELAY_PIN) * 100 / 1023; 
+  float delay = ((float) analogRead(DELAY_PIN) * 10.0f) / 1023.0f; 
   delay1.delay(0, delay); 
+  sgtl5000_1.volume(analogRead(VOLUME_PIN) / 1023.0f); // Scale volume to 0-1
 }

@@ -38,7 +38,7 @@ void AudioFilterBiquadFloat::update(void)
             state[i * 2] = w;
             x = y;
         }
-        *data = (int16_t) (y * 32768.0f);
+        *data = (int16_t) (max(-1.0f, min(1.0f, min(y, 1.0f))) * 32768.0f);
     } 
     transmit(block);
     release(block);
